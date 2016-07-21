@@ -19,6 +19,7 @@ def start():
     
 def trade(msg):
     global vale_fair
+    global vale_pos
     global vale_buy_size
     global vale_sell_size
     if msg['type'] == 'book':
