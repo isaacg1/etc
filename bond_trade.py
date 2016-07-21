@@ -73,8 +73,10 @@ def bond_trade2(msg):
             symbol, size, price, type = id_to_symbol_map[msg['order_id']]
             if type == BUY:
                 buy_size -= size
-            if type == SELL:
+            elif type == SELL:
                 sell_size -= size
+            elif:
+                print(type)
             print(pos, buy_size, sell_size)
             return True
         return False
