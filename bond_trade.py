@@ -7,9 +7,11 @@ BOOK = 'book'
 
 
 position = 0
+id = 0
 
 def bond_trade(book):
     global position
+    global id
     if book[TYPE] != BOOK:
         return
     if book[SYMBOL] != BOND:
@@ -19,7 +21,8 @@ def bond_trade(book):
         best_bid = other[0]
         if best_bid[0] > BOND_PRICE:
             max_allowed = min(position - BOND_ALLOWED, best_bid[1])
-            id, order = create_add_order(BOND, SELL, BOND_PRICE, max_allowed)
+            order = create_sell_order(id, BOND, BOND_PRICE, max_allowed)
+            id += 1
             send_order(order, EXCHANGE)
             print("sent order to buy %s", max_allowed)
             position -= max_allowed
@@ -28,7 +31,8 @@ def bond_trade(book):
         best_offer = other[0]
         if best_offer[0] < BOND_PRICE:
             max_allowed = min(BOND_ALLOWED - position[BOND], best_offer[1])
-            id, order = create_add_order(BOND, BUY, BOND_PRICE, max_allowed)
+            order = create_buy_order(id, BOND, BOND_PRICE, max_allowed)
+            id += 1
             send_order(order, EXCHANGE)
             print("sent order to sell %s", max_allowed)
             position += max_allowed
