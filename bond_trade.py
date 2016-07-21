@@ -8,6 +8,7 @@ TYPE = 'type'
 BUY = 'buy'
 SELL ='sell'
 FILL ='fill'
+DIR = 'dir'
 
 position = 0
 id = 0
@@ -38,7 +39,9 @@ def bond_trade(book):
                     print("sent order to sell %s", max_allowed)
         return
     if book[TYPE] == FILL and book[SYMBOL] == BOND:
-        if book[DIR] == BUY:
+        if book[DIR] == "BUY":
             position += book[SIZE]
-        if book[DIR] == SELL:
+        elif book[DIR] == "SELL":
             position -= book[SIZE]
+        else:
+            print("bug happened on a fill")
