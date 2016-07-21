@@ -44,8 +44,8 @@ def bond_trade(book):
             print("bug happened on a fill")
 
 
-BUY_PRICE = 997
-SELL_PRICE = 1003
+BUY_PRICE = 999
+SELL_PRICE = 1001
 pos = 0
 buy_size = 100
 sell_size = 100
