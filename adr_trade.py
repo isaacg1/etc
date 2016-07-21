@@ -73,7 +73,7 @@ def trade(msg):
             print(id_to_symbol_map[msg['order_id']])
             rsp = (id_to_symbol_map[msg['order_id']])
             if len(rsp) == 4:
-                dir = rsp[3]
+                symbol, size, price, dir = rsp
                 if symbol == VALE:
                     if dir == BUY:
                         vale_pos += 1
