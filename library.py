@@ -34,7 +34,7 @@ def _create_add_order(symbol, buy_or_sell, size, price):
 
 def _create_convert(symbol, buy_or_sell, size):
     idd = _get_new_id()
-    order = {"type": "convert", "order_id": idd, "symbol": symbol, "dir": buy_of_sell, "size": size}
+    order = {"type": "convert", "order_id": idd, "symbol": symbol, "dir": buy_or_sell, "size": size}
     return json.dumps(order), idd
 
 def _create_buy_order(symbol, size, price):

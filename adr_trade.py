@@ -31,6 +31,9 @@ def trade(msg):
     global vale_pos
     global vale_buy_size
     global vale_sell_size
+    global valbz_pos
+    global valbz_buy_size
+    global valbz_sell_size
     if msg['type'] == 'book':
         if msg['symbol'] == 'VALBZ':
             if msg['buy'] and msg['sell']:
@@ -91,6 +94,8 @@ def update_vale():
     global vale_buy_size
     global vale_sell_size
     global valbz_pos
+    global valbz_buy_size
+    global valbz_sell_size
     if vale_fair == 0:
         return
     if vale_pos > CONVERT_LIMIT:
