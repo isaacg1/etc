@@ -69,23 +69,35 @@ def trade(msg):
     elif msg['type'] == 'reject':
         if msg['order_id'] in ids:
             print('got_rejected', msg)
-            symbol, size, price, type = id_to_symbol_map[msg['order_id']]
-            if symbol == VALE:
-                if type == 'BUY':
-                    vale_buy_size -= size
-                elif type == 'SELL':
-                    vale_sell_size -= size
-                else:
-                    print('asdfas')
-            elif symbol == VALBZ:
-                if type == 'BUY':
-                    valbz_buy_size -= size
-                elif type == 'SELL':
-                    valbz_sell_size -= size
-                else:
-                    print('zbasdfas')
-            print('valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
             return True
+    elif msg['type'] == 'ack':
+        if msg['order_id'] in ids:
+            rsp = id_to_symbol_map[msg['order_id']]
+            if len(rsp) == 4:
+                symbol, size, price, dir = rsp
+                if symbol == VALE:
+                    if dir == BUY:
+                        vale_pos += size
+                        vale_buy_size += size
+                    elif dir == SELL:
+                        vale_pos -= size
+                        vale_sell_size += size
+                if symbol == VALBZ:
+                    if dir == BUY:
+                        valbz_pos += size
+                        valbz_buy_size += size
+                    elif dir == SELL:
+                        valbz_pos -= size
+                        valbz_sell_size += size
+            if len(rsp) == 3:
+                symbol, size, dir = rsp
+                if symbol == VALE:
+                    if dir == 'BUY':
+                        valbz_pos -= size
+                        vale_pos += size
+                    if dir == 'SELL':
+                        valbz_pos += size
+                        vale_pos -= size
         return False
     return False
 
@@ -102,6 +114,7 @@ def update_vale():
         if ALLOWED - valbz_pos > 5:
             amount = min(CONVERT_AMOUNT, ALLOWED - valbz_pos)
             id = send_convert_order(VALE, amount, SELL)
+            ids.append(id)
             print("CONVERTED SELL VALE")
             vale_pos -= amount
             valbz_pos += amount
@@ -112,6 +125,7 @@ def update_vale():
         if ALLOWED + valbz_pos > 5:
             amount = min(CONVERT_AMOUNT, ALLOWED + valbz_pos)
             id = send_convert_order(VALE, amount, BUY)
+            ids.append(id)
             print("CONVERTED BUY VALE")
             vale_pos += amount
             valbz_pos -= amount
