@@ -32,9 +32,9 @@ def _create_add_order(symbol, buy_or_sell, size, price):
     order = {"type": "add", "order_id": idd, "symbol": symbol, "dir": buy_or_sell, "price": price, "size": size}
     return json.dumps(order), idd
 
-def _create_convert(symbol, buy_or_sell, size, price):
+def _create_convert(symbol, buy_or_sell, size):
     idd = _get_new_id()
-    order = {"type": "convert", "order_id": idd, "symbol": symbol, "dir": buy_of_sell, "price":price, "size": size}
+    order = {"type": "convert", "order_id": idd, "symbol": symbol, "dir": buy_of_sell, "size": size}
     return json.dumps(order), idd
 
 def _create_buy_order(symbol, size, price):
@@ -88,8 +88,8 @@ def send_buy_order(symbol, size, price):
     send_message(order)
     return id
 
-def send_convert_order(symbol, size, price, dir):
-    order, id = _create_convert(symbol, size, price, dir)
+def send_convert_order(symbol, size, dir):
+    order, id = _create_convert(symbol, size, dir)
     id_to_symbol_map[id] = (symbol, size, dir)
     send_message(order)
     return id
