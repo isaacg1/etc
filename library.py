@@ -52,7 +52,7 @@ def connect_to_prod():
     print(get_message())
 
 def send_message(order):
-    print("->" + order, file=sys.stderr)
+    print("->" + str(order), file=sys.stderr)
     print(order, file=EXCHANGE)
 
 def get_message():
