@@ -14,7 +14,7 @@ REJECT = 'reject'
 ORDER_ID = 'order_id'
 
 SYMBOL_PENNIED = library.XLF
-MIN_SPREAD = 16
+MIN_SPREAD = 30
 
    
 PENNY_SIZE = 1
