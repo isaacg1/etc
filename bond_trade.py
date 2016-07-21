@@ -53,8 +53,12 @@ my_ids = []
 
 def start():
     global my_ids
+    global buy_size
+    global sell_size
     id1 = send_buy_order(BOND, 100, BUY_PRICE)
     id2 = send_sell_order(BOND, 100, SELL_PRICE)
+    buy_size += 100
+    sell_size += 100
     my_ids.extend([id1, id2])
 
 def bond_trade2(msg):
@@ -83,7 +87,6 @@ def bond_trade2(msg):
             
     elif msg['type'] == 'fill':
         print('Got filled')
-
         if msg['dir'] == 'BUY':
             pos += msg['size']
             buy_size -= msg['size']
