@@ -32,8 +32,11 @@ def connect_to_test():
     s.connect(("test-exch-jiffy", 25000))
     global EXCHANGE
     EXCHANGE =  s.makefile('w+', 1)
+    send_message(HELLO_MSG)
+    print(get_message())
 
 def send_message(order):
+    print("->" + order, file=stderr)
     print(order, file=EXCHANGE)
 
 def get_message():
