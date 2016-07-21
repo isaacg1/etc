@@ -11,8 +11,8 @@ vale_buy_size = 0
 vale_sell_size = 0
 
 valbz_pos = 0
-vale_buy_size = 0
-vale_sell_size = 0
+valbz_buy_size = 0
+valbz_sell_size = 0
 
 ids = []
 
