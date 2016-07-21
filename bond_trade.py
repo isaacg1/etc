@@ -35,9 +35,50 @@ def bond_trade(book):
                     print("sent order to sell %s", max_allowed)
         return
     if book[TYPE] == FILL and book[SYMBOL] == BOND:
+        print("position")
         if book[DIR] == "BUY":
             position += book[SIZE]
         elif book[DIR] == "SELL":
             position -= book[SIZE]
         else:
             print("bug happened on a fill")
+
+
+BUY_PRICE = 997
+SELL_PRICE = 1003
+pos = 0
+buy_size = 100
+sell_size = 100
+
+def start():
+    create_buy_order(BOND, BUY_PRICE, 100)
+    create_sell_order(BOND, SELL_PRICE, 100)
+
+def bond_trade2(msg):
+    global pos
+    global buy_size
+    global sell_size
+    if msg['type'] == 'reject':
+        print('Got rejected\n', msg)
+        # NEED TO DO SOMETHING TO CHECK ID
+    elif msg['type'] == 'fill':
+        print('Got filled')
+        print(pos, buy_size, sell_size
+        if msg['dir'] == 'BUY':
+            pos += msg['size']
+            buy_size -= msg['size']
+        elif msg['dir'] == 'SELL':
+            pos -= msg['size']
+            sell_size -= msg['size']
+        else:
+            print("Something broke")
+        if BOND_ALLOWED - pos > buy_size:
+            amount = BOND_ALLOWED - pos - buy_size
+            create_buy_order(BOND, BUY_PRICE, amount)
+            buy_size += amount
+        if pos + BOND_ALLOWED > sell_size:
+            amount = pos + BOND_ALLOWED - sell_size
+            create_sell_order(BOND, SELL_PRICE, amount)
+            sell_size += amount
+        return True
+    
