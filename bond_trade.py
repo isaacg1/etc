@@ -53,6 +53,8 @@ my_ids = []
 
 def start():
     global my_ids
+    global buy_size
+    global sell_size
     id1 = send_buy_order(BOND, 100, BUY_PRICE)
     id2 = send_sell_order(BOND, 100, SELL_PRICE)
     buy_size += 100
