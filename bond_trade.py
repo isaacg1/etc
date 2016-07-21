@@ -44,26 +44,46 @@ def bond_trade(book):
             print("bug happened on a fill")
 
 
-BUY_PRICE = 997
-SELL_PRICE = 1003
+BUY_PRICE = 999
+SELL_PRICE = 1001
 pos = 0
 buy_size = 100
 sell_size = 100
+my_ids = []
 
 def start():
-    create_buy_order(BOND, BUY_PRICE, 100)
-    create_sell_order(BOND, SELL_PRICE, 100)
+    global my_ids
+    id1 = send_buy_order(BOND, BUY_PRICE, 100)
+    id2 = send_sell_order(BOND, SELL_PRICE, 100)
+    my_ids.extend([id1, id2])
 
 def bond_trade2(msg):
     global pos
     global buy_size
     global sell_size
+    global my_ids
+    if msg['type'] == 'open':
+        print('hi')
+        start()
+        print(pos, buy_size, sell_size)
+        return True
     if msg['type'] == 'reject':
-        print('Got rejected\n', msg)
-        # NEED TO DO SOMETHING TO CHECK ID
+        print('Got redjected\n', msg)
+        if msg['order_id'] in my_ids:
+            symbol, size, price, type = id_to_symbol_map[msg['order_id']]
+            if type == 'BUY':
+                buy_size -= size
+            elif type == 'SELL':
+                sell_size -= size
+            else:
+                print(type)
+            print(pos, buy_size, sell_size)
+            return True
+        return False
+            
     elif msg['type'] == 'fill':
         print('Got filled')
-        print(pos, buy_size, sell_size
+
         if msg['dir'] == 'BUY':
             pos += msg['size']
             buy_size -= msg['size']
@@ -74,11 +94,12 @@ def bond_trade2(msg):
             print("Something broke")
         if BOND_ALLOWED - pos > buy_size:
             amount = BOND_ALLOWED - pos - buy_size
-            create_buy_order(BOND, BUY_PRICE, amount)
+            send_buy_order(BOND, amount, BUY_PRICE)
             buy_size += amount
         if pos + BOND_ALLOWED > sell_size:
             amount = pos + BOND_ALLOWED - sell_size
-            create_sell_order(BOND, SELL_PRICE, amount)
+            send_sell_order(BOND, amount, SELL_PRICE)
             sell_size += amount
+        print(pos, buy_size, sell_size)
         return True
-    
+    return False
