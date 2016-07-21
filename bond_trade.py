@@ -65,6 +65,8 @@ def bond_trade2(msg):
     if msg['type'] == 'open':
         print('hi')
         start()
+        print(pos, buy_size, sell_size)
+        return True
     if msg['type'] == 'reject':
         print('Got redjected\n', msg)
         if msg['order_id'] in my_ids:
@@ -73,12 +75,13 @@ def bond_trade2(msg):
                 buy_size -= size
             if type == SELL:
                 sell_size -= size
+            print(pos, buy_size, sell_size)
             return True
         return False
             
     elif msg['type'] == 'fill':
         print('Got filled')
-        print(pos, buy_size, sell_size)
+
         if msg['dir'] == 'BUY':
             pos += msg['size']
             buy_size -= msg['size']
@@ -95,5 +98,6 @@ def bond_trade2(msg):
             amount = pos + BOND_ALLOWED - sell_size
             create_sell_order(BOND, SELL_PRICE, amount)
             sell_size += amount
+        print(pos, buy_size, sell_size)
         return True
     return False
