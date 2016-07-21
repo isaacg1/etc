@@ -59,7 +59,7 @@ def trade(msg):
             print('Got filled on VALBZ')
             if msg['dir'] == 'BUY':
                 valbz_pos += msg['size']
-                vale_buy_size -= msg['size']
+                valbz_buy_size -= msg['size']
             elif msg['dir'] == 'SELL':
                 valbz_pos -= msg['size']
                 valbz_sell_size -= msg['size']
@@ -69,6 +69,7 @@ def trade(msg):
     elif msg['type'] == 'reject':
         if msg['order_id'] in ids:
             print('got_rejected', msg)
+            print('vale', vale_pos, vale_buy_size, vale_sell_size, 'valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
             print(id_to_symbol_map[msg['order_id']])
             return True
     elif msg['type'] == 'ack':
@@ -120,27 +121,30 @@ def update_vale():
             ids.append(id)
             print("CONVERTED SELL VALE")
             id2 = send_sell_order(VALBZ, amount, vale_fair)
+            print('vale', vale_pos, vale_buy_size, vale_sell_size, 'valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
             ids.append(id2)
-            valbz_sell_size += amount
     if vale_pos < -CONVERT_LIMIT:
         if ALLOWED + valbz_pos > 5:
             amount = min(CONVERT_AMOUNT, ALLOWED + valbz_pos)
             id = send_convert_order(VALE, amount, BUY)
+            print('vale', vale_pos, vale_buy_size, vale_sell_size, 'valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
             ids.append(id)
             print("CONVERTED BUY VALE")
             id2 = send_buy_order(VALBZ, amount, vale_fair)
+            print('vale', vale_pos, vale_buy_size, vale_sell_size, 'valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
             ids.append(id2)
-            valbz_buy_size += amount
     buy_price = vale_fair - DESIRED_EDGE
     sell_price = vale_fair + DESIRED_EDGE
     if ALLOWED - vale_pos > vale_buy_size:
         amount = ALLOWED - vale_pos - vale_buy_size
         id = send_buy_order(VALE, amount, buy_price)
+        print('vale', vale_pos, vale_buy_size, vale_sell_size, 'valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
         ids.append(id)
         print('buy', VALE, amount, buy_price)
     if ALLOWED + vale_pos > vale_sell_size:
         amount = ALLOWED + vale_pos - vale_sell_size
         id = send_sell_order(VALE, amount, sell_price)
+        print('vale', vale_pos, vale_buy_size, vale_sell_size, 'valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
         ids.append(id)
         print('sell', VALE, amount, sell_price)
     return
