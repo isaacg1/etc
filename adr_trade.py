@@ -2,6 +2,8 @@ from library import *
 
 DESIRED_EDGE = 5
 ALLOWED = 10
+CONVERT_LIMIT = 7
+CONVERT_AMOUNT = 10
 
 vale_fair = 0
 vale_pos = 0
@@ -9,8 +11,8 @@ vale_buy_size = 0
 vale_sell_size = 0
 
 valbz_pos = 0
-valbz_buy_size = 0
-valbz_sell_size = 0
+vale_buy_size = 0
+vale_sell_size = 0
 
 ids = []
 
@@ -49,19 +51,37 @@ def trade(msg):
                 vale_sell_size -= msg['size']
             else:
                 print('Afase')
-            update_vale()
+            
+        if msg['symbol'] == VALBZ:
+            print('Got filled on VALBZ')
+            if msg['dir'] == 'BUY':
+                valbz_pos += msg['size']
+                vale_buy_size -= msg['size']
+            elif msg['dir'] == 'SELL':
+                valbz_pos -= msg['size']
+                valbz_sell_size -= msg['size']
+            else:
+                print('Afase')
             return True
     elif msg['type'] == 'reject':
         if msg['order_id'] in ids:
             print('got_rejected', msg)
             symbol, size, price, type = id_to_symbol_map[msg['order_id']]
-            if type == 'BUY':
-                vale_buy_size -= size
-            elif type == 'SELL':
-                vale_sell_size -= size
-            else:
-                print('asdfas')
-            print(vale_pos, vale_buy_size, vale_sell_size)
+            if symbol == VALE:
+                if type == 'BUY':
+                    vale_buy_size -= size
+                elif type == 'SELL':
+                    vale_sell_size -= size
+                else:
+                    print('asdfas')
+            elif symbol == VALBZ:
+                if type == 'BUY':
+                    valbz_buy_size -= size
+                elif type == 'SELL':
+                    valbz_sell_size -= size
+                else:
+                    print('zbasdfas')
+            print('valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
             return True
         return False
     return False
@@ -70,8 +90,29 @@ def update_vale():
     global vale_pos
     global vale_buy_size
     global vale_sell_size
+    global valbz_pos
     if vale_fair == 0:
         return
+    if vale_pos > CONVERT_LIMIT:
+        if ALLOWED - valbz_pos > 5:
+            amount = min(CONVERT_AMOUNT, ALLOWED - valbz_pos)
+            id = send_convert_order(VALE, amount, SELL)
+            print("CONVERTED SELL VALE")
+            vale_pos -= amount
+            valbz_pos += amount
+            id2 = send_sell_order(VALBZ, amount, vale_fair)
+            ids.append(id2)
+            valbz_sell_size += amount
+    if vale_pos < -CONVERT_LIMIT:
+        if ALLOWED + valbz_pos > 5:
+            amount = min(CONVERT_AMOUNT, ALLOWED + valbz_pos)
+            id = send_convert_order(VALE, amount, BUY)
+            print("CONVERTED BUY VALE")
+            vale_pos += amount
+            valbz_pos -= amount
+            id2 = send_buy_order(VALBZ, amount, vale_fair)
+            ids.append(id2)
+            valbz_buy_size += amount
     buy_price = vale_fair - DESIRED_EDGE
     sell_price = vale_fair + DESIRED_EDGE
     if ALLOWED - vale_pos > vale_buy_size:
