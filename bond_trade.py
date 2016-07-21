@@ -94,11 +94,11 @@ def bond_trade2(msg):
             print("Something broke")
         if BOND_ALLOWED - pos > buy_size:
             amount = BOND_ALLOWED - pos - buy_size
-            create_buy_order(BOND, BUY_PRICE, amount)
+            send_buy_order(BOND, amount, BUY_PRICE)
             buy_size += amount
         if pos + BOND_ALLOWED > sell_size:
             amount = pos + BOND_ALLOWED - sell_size
-            create_sell_order(BOND, SELL_PRICE, amount)
+            send_sell_order(BOND, amount, SELL_PRICE)
             sell_size += amount
         print(pos, buy_size, sell_size)
         return True
