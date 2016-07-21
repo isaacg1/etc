@@ -7,7 +7,7 @@ BOOK = 'book'
 TYPE = 'type'
 BUY = 'buy'
 SELL ='sell'
-
+FILL ='fill'
 
 position = 0
 id = 0
