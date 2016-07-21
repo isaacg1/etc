@@ -36,7 +36,7 @@ def connect_to_test():
     print(get_message())
 
 def send_message(order):
-    print("->" + order, file=stderr)
+    print("->" + order, file=sys.stderr)
     print(order, file=EXCHANGE)
 
 def get_message():
