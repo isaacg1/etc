@@ -14,7 +14,7 @@ REJECT = 'reject'
 ORDER_ID = 'order_id'
 
 SYMBOL_PENNIED = library.VALBZ
-MIN_SPREAD = 8
+MIN_SPREAD = 4
 
    
 PENNY_SIZE = 1
