@@ -15,6 +15,11 @@ valbz_sell_size = 0
 ids = []
 
 def start():
+    for entry in hello['symbols']:
+        if entry['symbol'] == 'VALE':
+            vale_pos = entry['position']
+        elif entry['symbol'] == 'VALBZ':
+            valbz_pos = entry['position']
     pass
     
 def trade(msg):
@@ -57,7 +62,6 @@ def trade(msg):
             print(vale_pos, vale_buy_size, vale_sell_size)
             return True
         return False
-                
     return False
 
 def update_vale():

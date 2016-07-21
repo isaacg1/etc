@@ -15,6 +15,7 @@ XLF = "XLF"
 EXCHANGE = 0
 _ID = 0
 
+hello = None
 
 id_to_symbol_map = {}
 
@@ -44,7 +45,9 @@ def connect_to_test():
     global EXCHANGE
     EXCHANGE =  s.makefile('w+', 1)
     send_message(HELLO_MSG)
-    print(get_message())
+    global hello
+    hello = get_message()
+    print(hello)
 
 def connect_to_test2():
     print("CONNECTING TO TEST EXCHANGE")
