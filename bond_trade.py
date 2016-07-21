@@ -53,8 +53,8 @@ my_ids = []
 
 def start():
     global my_ids
-    id1 = send_buy_order(BOND, BUY_PRICE, 100)
-    id2 = send_sell_order(BOND, SELL_PRICE, 100)
+    id1 = send_buy_order(BOND, 100, BUY_PRICE)
+    id2 = send_sell_order(BOND, 100, SELL_PRICE)
     my_ids.extend([id1, id2])
 
 def bond_trade2(msg):
