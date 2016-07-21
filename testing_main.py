@@ -3,7 +3,7 @@ import bond_trade
 
 def main():
     connect_to_test()
-    send_message(create_buy_order(999999, BOND,  1, 999))
+    send_message(-1, create_buy_order(999999, BOND,  1, 999))
     while True:
         msg = get_message()
         print("got msg")
