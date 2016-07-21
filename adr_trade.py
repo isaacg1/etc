@@ -69,6 +69,7 @@ def trade(msg):
     elif msg['type'] == 'reject':
         if msg['order_id'] in ids:
             print('got_rejected', msg)
+            print('vale', vale_pos, vale_buy_size, vale_sell_size, 'valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
             print(id_to_symbol_map[msg['order_id']])
             return True
     elif msg['type'] == 'ack':
