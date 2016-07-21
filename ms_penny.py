@@ -13,8 +13,8 @@ ACK = 'ack'
 REJECT = 'reject'
 ORDER_ID = 'order_id'
 
-SYMBOL_PENNIED = library.VALE
-MIN_SPREAD = 10
+SYMBOL_PENNIED = library.MS
+MIN_SPREAD = 5
 
    
 PENNY_SIZE = 1

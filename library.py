@@ -1,4 +1,5 @@
 from __future__ import print_function
+import time
 import json
 import sys
 import socket
@@ -11,6 +12,7 @@ GS = "GS"
 MS = "MS"
 WFC = "WFC"
 XLF = "XLF"
+CANCEL = "cancel"
 
 EXCHANGE = 0
 _ID = 0
@@ -25,7 +27,7 @@ def _get_new_id():
     _ID += 1
     return _ID
 
-HELLO_MSG = json.dumps({"type" : "hello", "team" : "JIFFY"}) + "\n"
+HELLO_MSG = json.dumps({"type" : "hello", "team" : "JIFFY"})
 
 def _create_add_order(symbol, buy_or_sell, size, price):
     idd = _get_new_id()
@@ -75,6 +77,7 @@ def connect_to_prod():
 def send_message(order):
     print("->" + str(order), file=sys.stderr)
     print(order, file=EXCHANGE)
+    time.sleep(0.01)
 
 def send_sell_order(symbol, size, price):
     order, id = _create_sell_order(symbol, size, price)
@@ -87,6 +90,11 @@ def send_buy_order(symbol, size, price):
     id_to_symbol_map[id] = (symbol, size, price, BUY)
     send_message(order)
     return id
+
+def send_cancel_order(id):
+    o = { "type" : CANCEL, "order_id" : id}
+    s = json.dumps(o)
+    send_message(s)
 
 def send_convert_order(symbol, size, dir):
     order, id = _create_convert(symbol, size, dir)
