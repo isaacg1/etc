@@ -17,6 +17,7 @@ CANCEL = "cancel"
 EXCHANGE = 0
 _ID = 0
 
+hello = None
 
 id_to_symbol_map = {}
 
@@ -33,6 +34,11 @@ def _create_add_order(symbol, buy_or_sell, size, price):
     order = {"type": "add", "order_id": idd, "symbol": symbol, "dir": buy_or_sell, "price": price, "size": size}
     return json.dumps(order), idd
 
+def _create_convert(symbol, buy_or_sell, size):
+    idd = _get_new_id()
+    order = {"type": "convert", "order_id": idd, "symbol": symbol, "dir": buy_or_sell, "size": size}
+    return json.dumps(order), idd
+
 def _create_buy_order(symbol, size, price):
     return _create_add_order(symbol, BUY, size, price)
 
@@ -46,7 +52,9 @@ def connect_to_test():
     global EXCHANGE
     EXCHANGE =  s.makefile('w+', 1)
     send_message(HELLO_MSG)
-    print(get_message())
+    global hello
+    hello = get_message()
+    print(hello)
 
 def connect_to_test2():
     print("CONNECTING TO TEST EXCHANGE")
@@ -87,6 +95,12 @@ def send_cancel_order(id):
     o = { "type" : CANCEL, "order_id" : id}
     s = json.dumps(o)
     send_message(s)
+
+def send_convert_order(symbol, size, dir):
+    order, id = _create_convert(symbol, size, dir)
+    id_to_symbol_map[id] = (symbol, size, dir)
+    send_message(order)
+    return id
 
 def get_message():
     s = EXCHANGE.readline().strip()
