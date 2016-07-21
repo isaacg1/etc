@@ -69,13 +69,13 @@ def send_message(order):
     print(order, file=EXCHANGE)
 
 def send_sell_order(symbol, size, price):
-    order, id = create_sell_order(symbol, size, price)
+    order, id = _create_sell_order(symbol, size, price)
     id_to_symbol_map[id] = (symbol, size, price, SELL)
     send_message(order)
     return id
 
 def send_buy_order(symbol, size, price):
-    order, id = create_buy_order(symbol, size, price)
+    order, id = _create_buy_order(symbol, size, price)
     id_to_symbol_map[id] = (symbol, size, price, BUY)
     send_message(order)
     return id
