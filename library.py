@@ -35,13 +35,22 @@ def connect_to_test():
     send_message(HELLO_MSG)
     print(get_message())
 
+def connect_to_prod():
+    print("CONNECTING TO PROD EXCHANGE")
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(("production", 25000))
+    global EXCHANGE
+    EXCHANGE =  s.makefile('w+', 1)
+    send_message(HELLO_MSG)
+    print(get_message())
+
 def send_message(order):
     print("->" + order, file=sys.stderr)
     print(order, file=EXCHANGE)
 
 def get_message():
     s = EXCHANGE.readline().strip()
-    print("<-" + json.loads(s), file=sys.stderr)
+    print("<-" + s, file=sys.stderr)
     return json.loads(s)
 
 
