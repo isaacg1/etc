@@ -27,15 +27,15 @@ def _get_new_id():
 HELLO_MSG = json.dumps({"type" : "hello", "team" : "JIFFY"}) + "\n"
 
 def _create_add_order(symbol, buy_or_sell, size, price):
-    idd = get_new_id()
+    idd = _get_new_id()
     order = {"type": "add", "order_id": idd, "symbol": symbol, "dir": buy_or_sell, "price": price, "size": size}
     return json.dumps(order), idd
 
 def _create_buy_order(symbol, size, price):
-    return create_add_order(symbol, BUY, size, price)
+    return _create_add_order(symbol, BUY, size, price)
 
 def _create_sell_order(symbol, size, price):
-    return create_add_order(symbol, SELL, size, price)
+    return _create_add_order(symbol, SELL, size, price)
 
 def connect_to_test():
     print("CONNECTING TO TEST EXCHANGE")
@@ -69,13 +69,13 @@ def send_message(order):
     print(order, file=EXCHANGE)
 
 def send_sell_order(symbol, size, price):
-    order, id = create_sell_order(symbol, size, price)
+    order, id = _create_sell_order(symbol, size, price)
     id_to_symbol_map[id] = (symbol, size, price, SELL)
     send_message(order)
     return id
 
 def send_buy_order(symbol, size, price):
-    order, id = create_buy_order(symbol, size, price)
+    order, id = _create_buy_order(symbol, size, price)
     id_to_symbol_map[id] = (symbol, size, price, BUY)
     send_message(order)
     return id
