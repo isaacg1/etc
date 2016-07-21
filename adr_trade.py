@@ -16,8 +16,6 @@ valbz_sell_size = 0
 
 ids = []
 
-waiting_for_ack
-
 def start():
     from library import hello
     print(hello)
