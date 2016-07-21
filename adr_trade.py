@@ -15,6 +15,7 @@ valbz_sell_size = 0
 ids = []
 
 def start():
+    from library import hello
     print(hello)
     for entry in hello['symbols']:
         if entry['symbol'] == 'VALE':
