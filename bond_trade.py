@@ -51,8 +51,8 @@ buy_size = 100
 sell_size = 100
 
 def start():
-    create_buy_order(BOND, BUY_PRICE, 100)
-    create_sell_order(BOND, SELL_PRICE, 100)
+    send_buy_order(BOND, BUY_PRICE, 100)
+    send_sell_order(BOND, SELL_PRICE, 100)
 
 def bond_trade2(msg):
     global pos
