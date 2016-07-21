@@ -41,6 +41,7 @@ def send_message(order):
 
 def get_message():
     s = EXCHANGE.readline().strip()
+    print("<-" + json.loads(s), file=sys.stderr)
     return json.loads(s)
 
 
