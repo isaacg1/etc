@@ -71,9 +71,9 @@ def bond_trade2(msg):
         print('Got redjected\n', msg)
         if msg['order_id'] in my_ids:
             symbol, size, price, type = id_to_symbol_map[msg['order_id']]
-            if type == BUY:
+            if type == 'BUY':
                 buy_size -= size
-            elif type == SELL:
+            elif type == 'SELL':
                 sell_size -= size
             else:
                 print(type)
