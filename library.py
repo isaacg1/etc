@@ -27,7 +27,7 @@ def _get_new_id():
 HELLO_MSG = json.dumps({"type" : "hello", "team" : "JIFFY"}) + "\n"
 
 def _create_add_order(symbol, buy_or_sell, size, price):
-    idd = get_new_id()
+    idd = _get_new_id()
     order = {"type": "add", "order_id": idd, "symbol": symbol, "dir": buy_or_sell, "price": price, "size": size}
     return json.dumps(order), idd
 
