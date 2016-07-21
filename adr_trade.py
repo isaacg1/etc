@@ -59,7 +59,7 @@ def trade(msg):
             print('Got filled on VALBZ')
             if msg['dir'] == 'BUY':
                 valbz_pos += msg['size']
-                vale_buy_size -= msg['size']
+                valbz_buy_size -= msg['size']
             elif msg['dir'] == 'SELL':
                 valbz_pos -= msg['size']
                 valbz_sell_size -= msg['size']
@@ -122,7 +122,6 @@ def update_vale():
             id2 = send_sell_order(VALBZ, amount, vale_fair)
             print('vale', vale_pos, vale_buy_size, vale_sell_size, 'valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
             ids.append(id2)
-            valbz_sell_size += amount
     if vale_pos < -CONVERT_LIMIT:
         if ALLOWED + valbz_pos > 5:
             amount = min(CONVERT_AMOUNT, ALLOWED + valbz_pos)
@@ -133,7 +132,6 @@ def update_vale():
             id2 = send_buy_order(VALBZ, amount, vale_fair)
             print('vale', vale_pos, vale_buy_size, vale_sell_size, 'valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
             ids.append(id2)
-            valbz_buy_size += amount
     buy_price = vale_fair - DESIRED_EDGE
     sell_price = vale_fair + DESIRED_EDGE
     if ALLOWED - vale_pos > vale_buy_size:
