@@ -5,6 +5,8 @@ BOND_ALLOWED = 100
 SYMBOL = 'symbol'
 BOOK = 'book'
 TYPE = 'type'
+BUY = 'buy'
+SELL ='sell'
 
 
 position = 0
