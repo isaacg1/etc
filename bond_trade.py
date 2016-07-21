@@ -58,8 +58,9 @@ def bond_trade2(msg):
     global pos
     global buy_size
     global sell_size
-    if msg['type'] == 'ack':
+    if msg['type'] == 'open':
         print('hi')
+        start()
     if msg['type'] == 'reject':
         print('Got rejected\n', msg)
         # NEED TO DO SOMETHING TO CHECK ID
