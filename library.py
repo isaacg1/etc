@@ -36,6 +36,8 @@ def send_order(order, exchange):
 
 def main():
     exchange = connect()
+    global EXCHANGE
+    EXCHANGE = exchange
     print("HELLO JIFFY", file=exchange)
     hello_from_exchange = exchange.readline().strip()
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
