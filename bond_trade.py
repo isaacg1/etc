@@ -47,14 +47,16 @@ def bond_trade(book):
 BUY_PRICE = 999
 SELL_PRICE = 1001
 pos = 0
-buy_size = 100
-sell_size = 100
+buy_size = 0
+sell_size = 0
 my_ids = []
 
 def start():
     global my_ids
     id1 = send_buy_order(BOND, 100, BUY_PRICE)
     id2 = send_sell_order(BOND, 100, SELL_PRICE)
+    buy_size += 100
+    sell_size += 100
     my_ids.extend([id1, id2])
 
 def bond_trade2(msg):
