@@ -30,7 +30,8 @@ def connect_to_test():
     print("CONNECTING TO TEST EXCHANGE")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(("test-exch-jiffy", 20000))
-    return s.makefile('w+', 1)
+    global EXCHANGE
+    EXCHANGE =  s.makefile('w+', 1)
 
 def send_message(order):
     print(order, file=EXCHANGE)
@@ -38,21 +39,5 @@ def send_message(order):
 def get_message():
     s = EXCHANGE.readline().strip()
     return json.loads(s)
-
-def main():
-    global EXCHANGE
-    EXCHANGE = connect_to_test()
-    print("HELLO JIFFY", file=exchange)
-    while True:
-        
-
-    hello_from_exchange = exchange.readline().strip()
-    print("The exchange replied:", hello_from_exchange, file=sys.stderr)
-    send_order(create_buy_order(1, BOND, 1, 999), exchange)
-
-if __name__ == "__main__":
-    main()
-
-
 
 
