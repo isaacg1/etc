@@ -79,12 +79,12 @@ def update_vale():
         id = send_buy_order(VALE, amount, buy_price)
         ids.append(id)
         vale_buy_size += amount
-        print(VALE, amount, buy_price)
+        print('buy', VALE, amount, buy_price)
     if ALLOWED + vale_pos > vale_sell_size:
         amount = ALLOWED + vale_pos - vale_sell_size
         id = send_sell_order(VALE, amount, buy_price)
         ids.append(id)
         vale_sell_size += amount
-        print(VALE, amount, sell_price)
+        print('sell', VALE, amount, sell_price)
     return
     
