@@ -63,7 +63,7 @@ def bond_trade2(msg):
         # NEED TO DO SOMETHING TO CHECK ID
     elif msg['type'] == 'fill':
         print('Got filled')
-        print(pos, buy_size, sell_size
+        print(pos, buy_size, sell_size)
         if msg['dir'] == 'BUY':
             pos += msg['size']
             buy_size -= msg['size']
