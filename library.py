@@ -51,7 +51,7 @@ def send_message(order):
 def get_message():
     s = EXCHANGE.readline().strip()
     if s == "":
-        print "Round ended"
+        print("Round ended")
         sys.exit(0)
     print("<-" + s, file=sys.stderr)
     return json.loads(s)
