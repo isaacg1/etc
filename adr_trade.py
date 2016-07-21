@@ -57,8 +57,8 @@ def update_vale():
         ids.append(id)
         vale_buy_size += amount
         print('vale', amount, buy_price)
-    if ALLOWED + pos > vale_sell_size:
-        amount = ALLOWED + pos - vale_sell_size
+    if ALLOWED + vale_pos > vale_sell_size:
+        amount = ALLOWED + vale_pos - vale_sell_size
         id = send_sell_order(BOND, amount, buy_price)
         ids.append(id)
         vale_sell_size += amount
