@@ -27,11 +27,11 @@ def create_add_order(symbol, buy_or_sell, size, price):
     order = {"type": "add", "order_id": idd, "symbol": symbol, "dir": buy_or_sell, "price": price, "size": size}
     return json.dumps(order), idd
 
-def create_buy_order(idd, symbol, quantity, price):
-    return create_add_order(idd, symbol, BUY, quantity, price)
+def create_buy_order(symbol, quantity, price):
+    return create_add_order(symbol, BUY, quantity, price)
 
-def create_sell_order(idd, symbol, quantity, price):
-    return create_add_order(idd, symbol, SELL, quantity, price)
+def create_sell_order(symbol, quantity, price):
+    return create_add_order(symbol, SELL, quantity, price)
 
 def connect_to_test():
     print("CONNECTING TO TEST EXCHANGE")
