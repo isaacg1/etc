@@ -23,6 +23,7 @@ def trade(msg):
         if msg['symbol'] == 'VALBZ':
             if msg['buy'] and msg['sell']:
                 buy = msg['buy'][0][0]
+                sell = msg['sell'][0][0]
                 fair = (buy + sell)/2
                 vale_fair = fair
                 update_vale()
