@@ -71,6 +71,20 @@ def trade(msg):
             print('got_rejected', msg)
             print('vale', vale_pos, vale_buy_size, vale_sell_size, 'valbz', valbz_pos, valbz_buy_size, valbz_sell_size)
             print(id_to_symbol_map[msg['order_id']])
+            rsp = (id_to_symbol_map[msg['order_id']])
+            if len(rsp) == 4:
+                dir = rsp[3]
+                if symbol == VALE:
+                    if dir == BUY:
+                        vale_pos += 1
+                    elif dir == SELL:
+                        vale_pos -= 1
+                if symbol == VALBZ:
+                    if dir == BUY:
+                        valbz_pos += 1
+                    elif dir == SELL:
+                        valbz_pos -= 1
+                
             return True
     elif msg['type'] == 'ack':
         if msg['order_id'] in ids:
