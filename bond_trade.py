@@ -26,7 +26,7 @@ def bond_trade(book):
             max_allowed = min(position - BOND_ALLOWED, best_bid[1])
             order = create_sell_order(id, BOND, BOND_PRICE, max_allowed)
             id += 1
-            send_order(order, EXCHANGE)
+            send_message(order)
             print("sent order to buy %s", max_allowed)
             position -= max_allowed
     other = book[SELL]
@@ -36,6 +36,6 @@ def bond_trade(book):
             max_allowed = min(BOND_ALLOWED - position[BOND], best_offer[1])
             order = create_buy_order(id, BOND, BOND_PRICE, max_allowed)
             id += 1
-            send_order(order, EXCHANGE)
+            send_message(order)
             print("sent order to sell %s", max_allowed)
             position += max_allowed
