@@ -13,7 +13,7 @@ ACK = 'ack'
 REJECT = 'reject'
 ORDER_ID = 'order_id'
 
-SYMBOL_PENNIED = library.VALE
+SYMBOL_PENNIED = library.XLF
 MIN_SPREAD = 10
 
    
@@ -146,6 +146,7 @@ def do_we_want_to_penny(buy, sell):
     if len(buy) == 0 or len(sell) == 0:
         print("No market, no pennying")
         return False
+    print("Spread: "+ str(sell[0][0] - buy[0][0]))
     return sell[0][0] - buy[0][0] > MIN_SPREAD
 
 def is_our_pennying_reasonable(buy_book, sell_book, our_buy, our_sell):
