@@ -4,6 +4,7 @@ BOND_PRICE = 1000
 BOND_ALLOWED = 100
 SYMBOL = 'symbol'
 BOOK = 'book'
+TYPE = 'type'
 
 
 position = 0
