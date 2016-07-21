@@ -2,11 +2,16 @@ from library import *
 
 BOND_PRICE = 1000
 BOND_ALLOWED = 100
+SYMBOL = 'symbol'
+BOOK = 'book'
+
 
 position = 0
 
 def bond_trade(book):
     global position
+    if book[TYPE] != BOOK:
+        return
     if book[SYMBOL] != BOND:
         return
     other = book[BUY]
@@ -16,6 +21,7 @@ def bond_trade(book):
             max_allowed = min(position - BOND_ALLOWED, best_bid[1])
             id, order = create_add_order(BOND, SELL, BOND_PRICE, max_allowed)
             send_order(order, EXCHANGE)
+            print("sent order to buy %s", max_allowed)
             position -= max_allowed
     other = book[SELL]
     if other:
@@ -24,4 +30,5 @@ def bond_trade(book):
             max_allowed = min(BOND_ALLOWED - position[BOND], best_offer[1])
             id, order = create_add_order(BOND, BUY, BOND_PRICE, max_allowed)
             send_order(order, EXCHANGE)
+            print("sent order to sell %s", max_allowed)
             position += max_allowed
