@@ -33,7 +33,7 @@ def bond_trade(book):
     if other:
         best_offer = other[0]
         if best_offer[0] < BOND_PRICE:
-            max_allowed = min(BOND_ALLOWED - position[BOND], best_offer[1])
+            max_allowed = min(BOND_ALLOWED - position, best_offer[1])
             order = create_buy_order(id, BOND, BOND_PRICE, max_allowed)
             id += 1
             send_message(order)
