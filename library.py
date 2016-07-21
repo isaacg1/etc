@@ -19,28 +19,37 @@ _ID = 0
 id_to_symbol_map = {}
 
 
-def get_new_id():
+def _get_new_id():
     global _ID
     _ID += 1
     return _ID
 
 HELLO_MSG = json.dumps({"type" : "hello", "team" : "JIFFY"}) + "\n"
 
-def create_add_order(symbol, buy_or_sell, size, price):
+def _create_add_order(symbol, buy_or_sell, size, price):
     idd = get_new_id()
     order = {"type": "add", "order_id": idd, "symbol": symbol, "dir": buy_or_sell, "price": price, "size": size}
     return json.dumps(order), idd
 
-def create_buy_order(symbol, size, price):
+def _create_buy_order(symbol, size, price):
     return create_add_order(symbol, BUY, size, price)
 
-def create_sell_order(symbol, size, price):
+def _create_sell_order(symbol, size, price):
     return create_add_order(symbol, SELL, size, price)
 
 def connect_to_test():
     print("CONNECTING TO TEST EXCHANGE")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(("test-exch-jiffy", 25000))
+    global EXCHANGE
+    EXCHANGE =  s.makefile('w+', 1)
+    send_message(HELLO_MSG)
+    print(get_message())
+
+def connect_to_test2():
+    print("CONNECTING TO TEST EXCHANGE")
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(("test-exch-jiffy", 25001))
     global EXCHANGE
     EXCHANGE =  s.makefile('w+', 1)
     send_message(HELLO_MSG)
