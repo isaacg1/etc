@@ -75,7 +75,7 @@ def bond_trade2(msg):
                 buy_size -= size
             elif type == SELL:
                 sell_size -= size
-            elif:
+            else:
                 print(type)
             print(pos, buy_size, sell_size)
             return True
