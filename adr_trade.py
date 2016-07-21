@@ -55,7 +55,6 @@ def trade(msg):
             else:
                 print('asdfas')
             print(vale_pos, vale_buy_size, vale_sell_size)
-            update_vale()
             return True
         return False
                 
