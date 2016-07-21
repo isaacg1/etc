@@ -29,7 +29,7 @@ def create_sell_order(idd, symbol, quantity, price):
 def connect_to_test():
     print("CONNECTING TO TEST EXCHANGE")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("test-exch-jiffy", 20000))
+    s.connect(("test-exch-jiffy", 25000))
     global EXCHANGE
     EXCHANGE =  s.makefile('w+', 1)
 
