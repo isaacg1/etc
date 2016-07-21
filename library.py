@@ -14,6 +14,8 @@ XLF = "XLF"
 
 EXCHANGE = 0
 
+HELLO_MSG = json.dumps({"type" : "hello", "team" : "JIFFY"}) + "\n"
+
 def create_add_order(idd, symbol, buy_or_sell, size, price):
     order = {"type": "add", "order_id": idd, "symbol": symbol, "dir": buy_or_sell, "price": price, "size": size}
     return json.dumps(order)
@@ -24,28 +26,21 @@ def create_buy_order(idd, symbol, quantity, price):
 def create_sell_order(idd, symbol, quantity, price):
     return create_add_order(idd, symbol, SELL, quantity, price)
 
-def connect():
+def connect_to_test():
+    print("CONNECTING TO TEST EXCHANGE")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("test-exch-jiffy", 20000))
-    return s.makefile('w+', 1)
-
-def send_order(order, exchange):
-    print(order, file=exchange)
-    response = exchange.readline().strip()
-    print(response)
-
-def main():
-    exchange = connect()
+    s.connect(("test-exch-jiffy", 25000))
     global EXCHANGE
-    EXCHANGE = exchange
-    print("HELLO JIFFY", file=exchange)
-    hello_from_exchange = exchange.readline().strip()
-    print("The exchange replied:", hello_from_exchange, file=sys.stderr)
-    send_order(create_buy_order(1, BOND, 1, 999), exchange)
+    EXCHANGE =  s.makefile('w+', 1)
+    send_message(HELLO_MSG)
+    print(get_message())
 
-if __name__ == "__main__":
-    main()
+def send_message(order):
+    print("->" + order, file=sys.stderr)
+    print(order, file=EXCHANGE)
 
-
+def get_message():
+    s = EXCHANGE.readline().strip()
+    return json.loads(s)
 
 
