@@ -16,6 +16,8 @@ valbz_sell_size = 0
 
 ids = []
 
+waiting_for_ack
+
 def start():
     from library import hello
     print(hello)
@@ -75,6 +77,7 @@ def trade(msg):
     elif msg['type'] == 'ack':
         if msg['order_id'] in ids:
             rsp = id_to_symbol_map[msg['order_id']]
+            print('ack': rsp)
             if len(rsp) == 4:
                 symbol, size, price, dir = rsp
                 if symbol == VALE:
