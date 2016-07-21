@@ -19,6 +19,8 @@ def start():
     
 def trade(msg):
     global vale_fair
+    global vale_buy_size
+    global vale_sell_size
     if msg['type'] == 'book':
         if msg['symbol'] == 'VALBZ':
             if msg['buy'] and msg['sell']:
@@ -28,19 +30,33 @@ def trade(msg):
                 vale_fair = fair
                 update_vale()
                 return True
-    if msg['type'] == 'fill':
+    elif msg['type'] == 'fill':
         if msg['symbol'] == 'VALE':
             print('Got filled on VALE')
             if msg['dir'] == 'BUY':
                 vale_pos += msg['size']
                 vale_buy_size -= msg['size']
             elif msg['dir'] == 'SELL':
-                vale_pos += msg['size']
+                vale_pos -= msg['size']
                 vale_sell_size -= msg['size']
             else:
                 print('Afase')
             update_vale()
             return True
+    elif msg['type'] == 'reject':
+        if msg['order_id'] in ids:
+            symbol, size, price, type = id_to_symbol_map[msg['order_id']]
+            if type == 'BUY':
+                vale_buy_size -= size
+            elif type == 'SELL':
+                vale_sell_size -= size
+            else:
+                print('asdfas')
+            print(vale_pos, vale_buy_size, vale_sell_size)
+            update_vale()
+            return True
+        return False
+                
     return False
 
 def update_vale():
