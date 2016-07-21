@@ -14,8 +14,9 @@ valbz_sell_size = 0
 
 ids = []
 
-def start() =
-
+def start()
+    pass
+    
 def trade(msg):
     global vale_fair
     if msg['type'] == 'book':
