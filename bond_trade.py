@@ -96,10 +96,12 @@ def bond_trade2(msg):
             amount = BOND_ALLOWED - pos - buy_size
             send_buy_order(BOND, amount, BUY_PRICE)
             buy_size += amount
+            print(BOND, amount, BUY_PRICE)
         if pos + BOND_ALLOWED > sell_size:
             amount = pos + BOND_ALLOWED - sell_size
             send_sell_order(BOND, amount, SELL_PRICE)
             sell_size += amount
+            print(BOND, amount, SELL_PRICE)
         print(pos, buy_size, sell_size)
         return True
     return False
