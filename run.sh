@@ -1,5 +1,5 @@
 echo "overall start"
-while 1
+while true
 do
     echo "round start"
     python main.py
