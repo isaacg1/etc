@@ -149,4 +149,4 @@ def _print_fills(msg):
            "value"     : value,
            "cash"      : _global_cash_position
            }
-    print(json.dumps(obj), file=sys.stderr)
+    print(json.dumps(obj), file=mc.fill_msg_log)
