@@ -24,10 +24,12 @@ def create_convert(symbols_to_weights, main_symbol):
         amount_long = 0
         for symbol in STW:
             amount_long += sym_to_pos[symbol] * STW[symbol]
-        if not is_converting and abs(amount_long) > CONVERT_LIMIT:
+        if abs(amount_long) > CONVERT_LIMIT * (STW[MAIN] * 2):
             print("Time to convert: %s" % amount_long)
             dir = 'BUY' if amount_long < 0 else 'SELL'
             size = 20 * int(abs(amount_long) / 20)
             my_id = send_convert_order(MAIN, size, dir, NAME)
+        print('checked')
+    return convert
 
             
