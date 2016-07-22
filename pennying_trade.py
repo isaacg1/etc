@@ -1,8 +1,8 @@
 import library
 from penny import create_penny
 
-ETF_SPREAD = 16
-STOCK_SPREAD = 16
+ETF_SPREAD = 20
+STOCK_SPREAD = 20
 
 ETF_SIZE = 10
 
