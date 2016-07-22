@@ -1,15 +1,5 @@
 import library
-SYMBOL = 'symbol'
-BOOK = 'book'
-TYPE = 'type'
-BUY = 'buy'
-OUT = 'out'
-SELL ='sell'
-FILL ='fill'
-DIR = 'dir'
-ACK = 'ack'
-REJECT = 'reject'
-ORDER_ID = 'order_id'
+from message_constants import *
 
 class Order:
     def __init__(self):
@@ -31,6 +21,7 @@ class Order:
 
 def create_penny(symbol_pennied, min_spread, penny_size):
 
+    COMPONENT_NAME = "PENNY "+ symbol_pennied
     SYMBOL_PENNIED = symbol_pennied
     MIN_SPREAD = min_spread
     PENNY_SIZE = penny_size
@@ -113,7 +104,6 @@ def create_penny(symbol_pennied, min_spread, penny_size):
 
     def penny_handle_fill(msg):
         get_out()
-        print("penny_fill ", library.id_to_symbol_map[msg[ORDER_ID]])
 
     def penny_handle_out(msg):
         id = msg[ORDER_ID]
@@ -164,7 +154,7 @@ def create_penny(symbol_pennied, min_spread, penny_size):
         buy_order.state_known = False
         sell_order.state_known = False
         buy_order.id = library.send_buy_order(SYMBOL_PENNIED, buy_order.size,
-                buy_order.price)
+                buy_order.price, COMPONENT_NAME)
         sell_order.id = library.send_sell_order(SYMBOL_PENNIED, sell_order.size,
-                sell_order.price)
+                sell_order.price, COMPONENT_NAME)
     return penny

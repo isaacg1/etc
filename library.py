@@ -3,6 +3,7 @@ import time
 import json
 import sys
 import socket
+import message_constants as mc
 BUY = "BUY"
 SELL = "SELL"
 CANCEL = "cancel"
@@ -30,6 +31,7 @@ _ID = 0
 hello = None
 
 id_to_symbol_map = {}
+id_to_component_map = {}
 
 
 def _get_new_id():
@@ -85,19 +87,21 @@ def connect_to_prod():
     print(get_message())
 
 def send_message(order):
-    print("->" + str(order), file=sys.stderr)
+    #print("->" + str(order), file=sys.stderr)
     print(order, file=EXCHANGE)
     time.sleep(0.01)
 
-def send_sell_order(symbol, size, price):
+def send_sell_order(symbol, size, price, component_name):
     order, id = _create_sell_order(symbol, size, price)
     id_to_symbol_map[id] = (symbol, size, price, SELL)
+    id_to_component_map[id]=component_name
     send_message(order)
     return id
 
-def send_buy_order(symbol, size, price):
+def send_buy_order(symbol, size, price, component_name):
     order, id = _create_buy_order(symbol, size, price)
     id_to_symbol_map[id] = (symbol, size, price, BUY)
+    id_to_component_map[id]=component_name
     send_message(order)
     return id
 
@@ -106,9 +110,10 @@ def send_cancel_order(id):
     s = json.dumps(o)
     send_message(s)
 
-def send_convert_order(symbol, size, dir):
+def send_convert_order(symbol, size, dir, component_name):
     order, id = _create_convert(symbol, size, dir)
     id_to_symbol_map[id] = (symbol, size, dir)
+    id_to_component_map[id]=component_name
     send_message(order)
     return id
 
@@ -117,7 +122,26 @@ def get_message():
     if s == "":
         print("Round ended")
         sys.exit(0)
-    print("<-" + s, file=sys.stderr)
-    return json.loads(s)
+    #print("<-" + s, file=sys.stderr)
+    o = json.loads(s)
+    _print_fills(o)
+    return o
 
-
+def _print_fills(msg):
+  if msg[mc.TYPE] == mc.FILL:
+    id = msg[mc.ORDER_ID]
+    price = msg[mc.PRICE]
+    size = msg[mc.SIZE]
+    value = price * size
+    if msg[mc.DIR] == BUY:
+        value = value * -1
+    obj = {"log_type"  : "fill_log",
+           "component" : id_to_component_map[id],
+           "symbol"    : msg[mc.SYMBOL],
+           #"order_info": id_to_symbol_map[id],
+           "dir"       : msg[mc.DIR],
+           "price"     : price,
+           "size"      : size,
+           "value"     : value
+           }
+    print(json.dumps(obj), file=sys.stderr)

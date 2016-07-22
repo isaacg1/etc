@@ -1,10 +1,8 @@
 from library import *
-from bond_trade import start, bond_trade2
-from penny import create_penny
+import pennying_trade
 
-start_funcs = [start]
-message_reactions = [bond_trade2,
-        create_penny(library.XFL, 20, 1)]
+start_funcs = []
+message_reactions = pennying_trade.etf_pennies + pennying_trade.stock_pennies
 
 def start_trading():
     for f in start_funcs:
