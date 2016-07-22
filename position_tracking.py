@@ -1,5 +1,6 @@
 from __future__ import print_function
 import sys
+import message_constants as mc
 cash = 0
 sym_to_pos = {}
 sym_to_book = {}
@@ -51,8 +52,7 @@ def on_fill(msg):
     print('Symbol: %s; Pos: %s; Bid size: %s; Offer size: %s; Best Bid: %s: Best Offer: %s; Best_spread: %s' %
             (symbol, sym_to_pos[symbol], sym_to_bid_size[symbol],
                 sym_to_offer_size[symbol], buy, sell,
-                spread), file=sys.stderr)
-           
+                spread), file=mc.position_log)
     return
 
 def on_ack(msg, id_to_symbol_map):
