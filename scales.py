@@ -19,12 +19,12 @@ class Order:
         self.state_known = True
         self.size = None
 
-def create_penny(symbol_pennied, min_spread, penny_size):
+def create_scale(symbol_scaled, scale_margin, scale_size):
 
-    COMPONENT_NAME = "PENNY "+ symbol_pennied
-    SYMBOL_PENNIED = symbol_pennied
-    MIN_SPREAD = min_spread
-    PENNY_SIZE = penny_size
+    COMPONENT_NAME = "SCALE " + symbol_svaled
+    SYMBOL_SCALED = symbol_scaled
+    SCALE_MARGIN = scale_margin
+    SCALE_SIZE = scale_size
 
     buy_order = Order()
     sell_order = Order()
@@ -35,40 +35,41 @@ def create_penny(symbol_pennied, min_spread, penny_size):
 
     def is_it_my_order(msg):
         id = msg[ORDER_ID]
-        return library.id_to_component_map[id] == COMPONENT_NAME
+        tup = library.id_to_symbol_map[id]
+        return get_symbol_from_map_tuple(tup) == SYMBOL_PENN/IED
 
-    def penny(msg):
-        if msg[TYPE] == BOOK and msg[SYMBOL] == SYMBOL_PENNIED:
+    def scale(msg):
+        if msg[TYPE] == BOOK and msg[SYMBOL] == SYMBOL_SCALED:
             buy = msg[BUY]
             sell = msg[SELL]
-            penny_handle_book(buy, sell)
+            scale_handle_book(buy, sell)
         if msg[TYPE] == ACK:
             if is_it_my_order(msg):
-                penny_handle_ack(msg)
+                scale_handle_ack(msg)
         if msg[TYPE] == REJECT:
             if is_it_my_order(msg):
-                penny_handle_reject(msg)
+                scale_handle_reject(msg)
         if msg[TYPE] == FILL:
             if is_it_my_order(msg):
-                penny_handle_fill(msg)
+                scale_handle_fill(msg)
         if msg[TYPE] == OUT:
             if is_it_my_order(msg):
-                penny_handle_out(msg)
+                scale_handle_out(msg)
 
-    def penny_handle_book(buy, sell):
+    def scale_handle_book(buy, sell):
         try:
             if not do_we_know_state():
                 return
-            if not do_we_want_to_penny(buy, sell):
+            if not do_we_want_to_scale(buy, sell):
                 if are_we_in():
                     get_out()
                     raise NameError("asdas")
             else:
-                # we want to penny
+                # we want to scale
                 if not are_we_in():
-                    start_pennying(buy, sell)
+                    start_scaleing(buy, sell)
                 else:
-                    # if is_our_pennying_reasonable(buy, sell, buy_order.price,
+                    # if is_our_scaleing_reasonable(buy, sell, buy_order.price,
                             # sell_order.price):
                         # return
                     # else:
@@ -76,7 +77,7 @@ def create_penny(symbol_pennied, min_spread, penny_size):
         except:
             pass
 
-    def penny_handle_reject(msg):
+    def scale_handle_reject(msg):
         print ("Rejected because ", msg["error"], "  ", library.id_to_symbol_map[msg[ORDER_ID]])
         id = msg[ORDER_ID]
         if id != buy_order.id and id != sell_order.id:
@@ -91,7 +92,7 @@ def create_penny(symbol_pennied, min_spread, penny_size):
                 buy_order.cancel_if_needed()
         pass
 
-    def penny_handle_ack(msg):
+    def scale_handle_ack(msg):
         id = msg[ORDER_ID]
         if buy_order.id == id:
             buy_order.state_known = True
@@ -101,10 +102,10 @@ def create_penny(symbol_pennied, min_spread, penny_size):
             return
         print("Unrecognized ack")
 
-    def penny_handle_fill(msg):
+    def scale_handle_fill(msg):
         get_out()
 
-    def penny_handle_out(msg):
+    def scale_handle_out(msg):
         id = msg[ORDER_ID]
         if buy_order.id == id:
             buy_order.kill()
@@ -114,12 +115,12 @@ def create_penny(symbol_pennied, min_spread, penny_size):
             return
         pass
 
-    def do_we_want_to_penny(buy, sell):
+    def do_we_want_to_scale(buy, sell):
         if len(buy) == 0 or len(sell) == 0:
             return False
-        return sell[0][0] - buy[0][0] > MIN_SPREAD
+        return True
 
-    # def is_our_pennying_reasonable(buy_book, sell_book, our_buy, our_sell):
+    # def is_our_scaleing_reasonable(buy_book, sell_book, our_buy, our_sell):
         # top_buy = buy_book[0][0]
         # top_sell = sell_book[0][0]
         # return top_buy + 3 >= our_buy and our_buy >= top_buy and our_sell <= top_sell and top_sell - 3 <= our_sell 
@@ -138,9 +139,11 @@ def create_penny(symbol_pennied, min_spread, penny_size):
         buy_order.cancel_if_needed()
         sell_order.cancel_if_needed()
 
-    def start_pennying(buy, sell):
-        buy_price = buy[0][0] + 1
-        sell_price = sell[0][0] - 1
+    def start_scaleing(buy, sell):
+        CAP = 100 - 10
+        fair = (buy[0][0] + sell[0][0]) / 2
+        buy_price = fair + SCALE_MARGIN
+        sell_price = fair - SCALE_MARGIN
         if not do_we_know_state():
             raise NameError("wtf1")
         if are_we_in():
@@ -148,12 +151,14 @@ def create_penny(symbol_pennied, min_spread, penny_size):
 
         buy_order.price = buy_price
         sell_order.price = sell_price
-        buy_order.size = PENNY_SIZE
-        sell_order.size = PENNY_SIZE
+        current_bid_size = sym_to_bid_size[SYMBOL_SCALED]
+        current_offer_size = sym_to_offer_size[SYMBOL_SCALED]
+        buy_order.size = CAP - current_bid_size
+        sell_order.size = CAP - current_offer_size
         buy_order.state_known = False
         sell_order.state_known = False
-        buy_order.id = library.send_buy_order(SYMBOL_PENNIED, buy_order.size,
+        buy_order.id = library.send_buy_order(SYMBOL_SCALED, buy_order.size,
                 buy_order.price, COMPONENT_NAME)
-        sell_order.id = library.send_sell_order(SYMBOL_PENNIED, sell_order.size,
+        sell_order.id = library.send_sell_order(SYMBOL_SCALED, sell_order.size,
                 sell_order.price, COMPONENT_NAME)
-    return penny
+    return scale
