@@ -66,7 +66,7 @@ def on_fill(msg):
         sym_to_offer_size[symbol] -= size
     else:
         assert False
-    partial_fills[msg['order_id']] = partial_fills.get(msg['order_id'], 0) + size
+    partial_fills[msg['order_id']] -= size
     buy = (sym_to_book[symbol]['buy'] or [[None, None]])[0][0]
     sell = (sym_to_book[symbol]['sell'] or [[None, None]])[0][0]
     spread = sell - buy if buy and sell else None
@@ -88,6 +88,7 @@ def on_ack(msg, id_to_symbol_map):
             sym_to_offer_size[symbol] += size
         else:
             assert False
+        partial_fills[msg['order_id']] = size
     elif len(order) == 3:
         # convert
         # (symbol, size, dir)
@@ -101,11 +102,9 @@ def on_out(msg, id_to_symbol_map):
     if len(order) == 4:
         symbol, size, price, dir = order
         if dir == 'BUY':
-            sym_to_bid_size[symbol] -= size
-            - partial_fills.get(msg['order_id'], 0)
+            sym_to_bid_size[symbol] -= partial_fills[msg['order_id']]
         elif dir == 'SELL':
-            sym_to_offer_size[symbol] -= size
-            - partial_fills.get(msg['order_id'], 0)
+            sym_to_offer_size[symbol] -= partial_fills[msg['order_id']]
         else:
             assert False
     partial_fills[msg['order_id']] = 0
