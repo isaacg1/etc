@@ -92,11 +92,11 @@ def on_ack(msg, id_to_symbol_map):
         partial_fills[msg['order_id']] = size
     elif len(order) == 3:
         symbol, size, dir = order
-        if symbol in CONVERSION:
-            multiplier = size / CONVERSION[symbol][0][0]
+        if symbol in CONVERSIONS:
+            multiplier = size / CONVERSIONS[symbol][0][0]
             if dir == 'SELL':
                 multiplier *= -1
-            for size, sym in CONVERSION[symbol]:
+            for size, sym in CONVERSIONS[symbol]:
                 sym_to_pos[sym] += multiplier * size
         else:
             print("Unkown convert symbol", order)

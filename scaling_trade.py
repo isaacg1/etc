@@ -1,7 +1,7 @@
 import library
 from scales import create_scale
 
-MARGIN = 28
+MARGIN = 1
 
 scales =  [ create_scale(library.XLY, MARGIN),
             create_scale(library.XLP, MARGIN),
