@@ -34,8 +34,7 @@ def create_scale(symbol_scaled, scale_margin):
 
     def is_it_my_order(msg):
         id = msg[ORDER_ID]
-        tup = library.id_to_symbol_map[id]
-        return get_symbol_from_map_tuple(tup) == SYMBOL_SCALED
+        return library.id_to_component_map[id] == COMPONENT_NAME
 
     def scale(msg):
         if msg[TYPE] == BOOK and msg[SYMBOL] == SYMBOL_SCALED:
@@ -99,7 +98,7 @@ def create_scale(symbol_scaled, scale_margin):
         if sell_order.id == id:
             sell_order.state_known = True
             return
-        print("Unrecognized ack")
+        print("Unrecognized ack 1")
 
     def scale_handle_fill(msg):
         get_out()
