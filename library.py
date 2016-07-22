@@ -5,14 +5,24 @@ import sys
 import socket
 BUY = "BUY"
 SELL = "SELL"
-BOND = "BOND"
-VALBZ = "VALBZ"
-VALE = "VALE"
-GS = "GS"
-MS = "MS"
-WFC = "WFC"
-XLF = "XLF"
 CANCEL = "cancel"
+
+XLY= "XLY"
+AMZN = "AMZN"
+HD = "HD"
+DIS = "DIS"
+
+XLP = "XLP"
+PG = "PG"
+KO = "KO"
+PM = "PM"
+
+XLU = "XLU"
+NEE = "NEE"
+DUK = "DUK"
+SO = "SO"
+
+RSP = "RSP"
 
 EXCHANGE = 0
 _ID = 0
