@@ -29,7 +29,7 @@ def create_convert(symbols_to_weights, main_symbol):
             print("Time to convert: %s" % amount_long)
             is_converting = True
             dir = 'BUY' if amount_long < 0 else 'SELL'
-            size = 20 * int(amount_long / 20)
+            size = 20 * int(abs(amount_long) / 20)
             my_id = send_convert_order(MAIN, size, dir, NAME)
 
             
