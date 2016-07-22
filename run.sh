@@ -6,5 +6,5 @@ do
     python main.py 2>main.err
     echo "round end"
     echo "round end" >> .monitor
-    sleep 5
+    sleep 2
 done
