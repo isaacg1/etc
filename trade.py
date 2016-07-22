@@ -2,11 +2,12 @@ from library import *
 import pennying_trade
 import position_tracking
 import adjusting_trade
+import scaling_trade
 
 start_funcs = []
-message_reactions = pennying_trade.etf_pennies + pennying_trade.stock_pennies 
+message_reactions = pennying_trade.etf_pennies + pennying_trade.stock_pennies\
++ scaling_trade.scales
 #+ adjusting_trade.trade
-
 def start_trading():
     for f in start_funcs:
         f()

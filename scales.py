@@ -1,5 +1,6 @@
 import library
 from message_constants import *
+from position_tracking import *
 
 class Order:
     def __init__(self):
@@ -55,25 +56,22 @@ def create_scale(symbol_scaled, scale_margin):
                 scale_handle_out(msg)
 
     def scale_handle_book(buy, sell):
-        try:
-            if not do_we_know_state():
-                return
-            if not do_we_want_to_scale(buy, sell):
-                if are_we_in():
-                    get_out()
-                    raise NameError("asdas")
+        if not do_we_know_state():
+            return
+        if not do_we_want_to_scale(buy, sell):
+            if are_we_in():
+                get_out()
+            return
+        else:
+            # we want to scale
+            if not are_we_in():
+                start_scaleing(buy, sell)
             else:
-                # we want to scale
-                if not are_we_in():
-                    start_scaleing(buy, sell)
-                else:
-                    # if is_our_scaleing_reasonable(buy, sell, buy_order.price,
-                            # sell_order.price):
-                        # return
-                    # else:
-                        get_out()
-        except:
-            pass
+                # if is_our_scaleing_reasonable(buy, sell, buy_order.price,
+                        # sell_order.price):
+                    # return
+                # else:
+                    get_out()
 
     def scale_handle_reject(msg):
         print ("Rejected because ", msg["error"], "  ", library.id_to_symbol_map[msg[ORDER_ID]])
@@ -138,25 +136,28 @@ def create_scale(symbol_scaled, scale_margin):
         sell_order.cancel_if_needed()
 
     def start_scaleing(buy, sell):
-        CAP = 100 - 10
+        CAP = 40
         fair = (buy[0][0] + sell[0][0]) / 2
-        buy_price = fair + SCALE_MARGIN
-        sell_price = fair - SCALE_MARGIN
+        buy_price = fair - SCALE_MARGIN
+        sell_price = fair + SCALE_MARGIN
         if not do_we_know_state():
-            raise NameError("wtf1")
+            return
         if are_we_in():
-            raise NameError("wtf2")
+            return
 
         buy_order.price = buy_price
         sell_order.price = sell_price
         current_bid_size = sym_to_bid_size[SYMBOL_SCALED]
         current_offer_size = sym_to_offer_size[SYMBOL_SCALED]
-        buy_order.size = CAP - current_bid_size
-        sell_order.size = CAP - current_offer_size
+        current_position = sym_to_pos[SYMBOL_SCALED]
+        buy_order.size = (CAP - current_position) - current_bid_size 
+        sell_order.size = (CAP + current_position) - current_offer_size
         buy_order.state_known = False
         sell_order.state_known = False
-        buy_order.id = library.send_buy_order(SYMBOL_SCALED, buy_order.size,
-                buy_order.price, COMPONENT_NAME)
-        sell_order.id = library.send_sell_order(SYMBOL_SCALED, sell_order.size,
-                sell_order.price, COMPONENT_NAME)
+        if not buy_order.size > 0:
+            buy_order.id = library.send_buy_order(SYMBOL_SCALED, buy_order.size,
+                    buy_order.price, COMPONENT_NAME)
+        if not sell_order.size > 0:
+            sell_order.id = library.send_sell_order(SYMBOL_SCALED, sell_order.size,
+                    sell_order.price, COMPONENT_NAME)
     return scale
