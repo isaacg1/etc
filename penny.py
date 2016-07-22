@@ -35,8 +35,7 @@ def create_penny(symbol_pennied, min_spread, penny_size):
 
     def is_it_my_order(msg):
         id = msg[ORDER_ID]
-        tup = library.id_to_symbol_map[id]
-        return get_symbol_from_map_tuple(tup) == SYMBOL_PENNIED
+        return library.id_to_component_map[id] == COMPONENT_NAME
 
     def penny(msg):
         if msg[TYPE] == BOOK and msg[SYMBOL] == SYMBOL_PENNIED:
