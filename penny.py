@@ -141,6 +141,7 @@ def create_penny(symbol_pennied, min_spread, penny_size):
 
     def start_pennying(buy, sell):
         shift = position_tracking.sym_to_pos[SYMBOL_PENNIED] / 20
+        shift = 0
         buy_price = buy[0][0] + 1 - shift
         sell_price = sell[0][0] - 1 - shift
         if not do_we_know_state():
