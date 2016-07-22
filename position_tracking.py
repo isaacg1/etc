@@ -99,6 +99,8 @@ def on_ack(msg, id_to_symbol_map):
 def on_out(msg, id_to_symbol_map):
     assert msg['type'] == 'out'
     order = id_to_symbol_map[msg['order_id']]
+    if msg['order_id'] not in partial_fills:
+        return
     if len(order) == 4:
         symbol, size, price, dir = order
         if dir == 'BUY':
