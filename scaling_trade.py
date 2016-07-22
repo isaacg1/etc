@@ -1,12 +1,12 @@
 import library
 from scales import create_scale
 
-MARGIN = 20
+MARGIN = 28
 
 scales =  [ create_scale(library.XLY, MARGIN),
             create_scale(library.XLP, MARGIN),
             create_scale(library.XLU, MARGIN),
-            create_scale(library.RSP, MARGIN),
+#            create_scale(library.RSP, MARGIN),
             create_scale(library.AMZN, MARGIN),
             create_scale(library.HD, MARGIN),
             create_scale(library.DIS, MARGIN),
