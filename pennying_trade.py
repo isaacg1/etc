@@ -1,20 +1,20 @@
 import library
 from penny import create_penny
 
-LOW_BETA_SPREAD = 15
-NORMAL_BETA_SPREAD = 20
-HIGH_BETA_SPREAD = 25
-LIQUID_SPREAD = 18
+LOW_BETA_SPREAD = 20
+NORMAL_BETA_SPREAD = 25
+HIGH_BETA_SPREAD = 35
+LIQUID_SPREAD = 20
 
-ETF_SIZE = 7
+ETF_SIZE = 3
 
 etf_pennies = [ create_penny(library.XLY, HIGH_BETA_SPREAD, ETF_SIZE),
                 create_penny(library.XLP, NORMAL_BETA_SPREAD, ETF_SIZE),
                 create_penny(library.XLU, LOW_BETA_SPREAD, ETF_SIZE),
-                create_penny(library.RSP, 50, ETF_SIZE)
+                create_penny(library.RSP, 70, ETF_SIZE)
                 ]
 
-STOCK_SIZE = 7
+STOCK_SIZE = 3
 stock_pennies = [create_penny(library.AMZN, LIQUID_SPREAD, STOCK_SIZE),
                  create_penny(library.HD, HIGH_BETA_SPREAD, STOCK_SIZE),
                  create_penny(library.DIS, HIGH_BETA_SPREAD, STOCK_SIZE),
