@@ -5,9 +5,7 @@ import adjusting_trade
 import scaling_trade
 
 start_funcs = []
-message_reactions = pennying_trade.etf_pennies + pennying_trade.stock_pennies\
-+ scaling_trade.scales
-#+ adjusting_trade.trade
+message_reactions = pennying_trade.etf_pennies + pennying_trade.stock_pennies + scaling_trade.scales
 def start_trading():
     for f in start_funcs:
         f()

@@ -154,10 +154,10 @@ def create_scale(symbol_scaled, scale_margin):
         sell_order.size = (CAP + current_position) - current_offer_size
         buy_order.state_known = False
         sell_order.state_known = False
-        if not buy_order.size > 0:
+        if buy_order.size > 0:
             buy_order.id = library.send_buy_order(SYMBOL_SCALED, buy_order.size,
                     buy_order.price, COMPONENT_NAME)
-        if not sell_order.size > 0:
+        if sell_order.size > 0:
             sell_order.id = library.send_sell_order(SYMBOL_SCALED, sell_order.size,
                     sell_order.price, COMPONENT_NAME)
     return scale
