@@ -1,10 +1,10 @@
 import library
 from penny import create_penny
 
-ETF_SPREAD = 20
-STOCK_SPREAD = 20
+ETF_SPREAD = 22
+STOCK_SPREAD = 22
 
-ETF_SIZE = 10
+ETF_SIZE = 8
 
 etf_pennies = [ create_penny(library.XLY, ETF_SPREAD, ETF_SIZE),
                 create_penny(library.XLP, ETF_SPREAD, ETF_SIZE),
@@ -12,7 +12,7 @@ etf_pennies = [ create_penny(library.XLY, ETF_SPREAD, ETF_SIZE),
                 create_penny(library.RSP, ETF_SPREAD, ETF_SIZE)
                 ]
 
-STOCK_SIZE = 10
+STOCK_SIZE = 12
 stock_pennies = [create_penny(library.AMZN, STOCK_SPREAD, STOCK_SIZE),
                  create_penny(library.HD, STOCK_SPREAD, STOCK_SIZE),
                  create_penny(library.DIS, STOCK_SPREAD, STOCK_SIZE),
