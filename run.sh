@@ -5,5 +5,6 @@ do
     echo "round started" >> .monitor
     python main.py 2>main.err
     echo "round end"
-    sleep 1
+    echo "round end" >> .monitor
+    sleep 5
 done
