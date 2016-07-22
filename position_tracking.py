@@ -12,7 +12,9 @@ partial_fills = {}
 ALL_SYMBOLS = ["XLY", "AMZN", "HD", "DIS", "XLP", "PG", "KO",
                 "PM", "XLU", "NEE", "DUK", "SO", "RSP"]
 
-CONVERSIONS = {'XLY': [(20, 'XLY'), (-6, 'AMZN'), (-6, 'HD'), (-8, 'DIS')]}
+CONVERSIONS = {'XLY': [(20, 'XLY'), (-6, 'AMZN'), (-6, 'HD'), (-8, 'DIS')],
+        'XLP': [(20, 'XLP'), (-12, 'PG'), (-12, 'KO'), (-6, 'PM')],
+        'XLU': [(20, 'XLU'), (-8, 'NEE'), (-6, 'DUK'), (-8, 'SO')]}
 
 def pnl():
     profit = cash
