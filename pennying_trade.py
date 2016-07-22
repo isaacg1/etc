@@ -10,7 +10,7 @@ ETF_SIZE = 8
 etf_pennies = [ create_penny(library.XLY, HIGH_BETA_SPREAD, ETF_SIZE),
                 create_penny(library.XLP, NORMAL_BETA_SPREAD, ETF_SIZE),
                 create_penny(library.XLU, LOW_BETA_SPREAD, ETF_SIZE),
-                create_penny(library.RSP, ETF_SPREAD, ETF_SIZE)
+                create_penny(library.RSP, HIGH_BETA_SPREAD, ETF_SIZE)
                 ]
 
 STOCK_SIZE = 12
