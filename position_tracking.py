@@ -12,6 +12,7 @@ partial_fills = {}
 ALL_SYMBOLS = ["XLY", "AMZN", "HD", "DIS", "XLP", "PG", "KO",
                 "PM", "XLU", "NEE", "DUK", "SO", "RSP"]
 
+CONVERSIONS = {'XLY': [(20, 'XLY'), (-6, 'AMZN'), (-6, 'HD'), (-8, 'DIS')]}
 
 def pnl():
     profit = cash
@@ -90,9 +91,15 @@ def on_ack(msg, id_to_symbol_map):
             assert False
         partial_fills[msg['order_id']] = size
     elif len(order) == 3:
-        # convert
-        # (symbol, size, dir)
-        pass
+        symbol, size, dir = order
+        if symbol in CONVERSION:
+            multiplier = size / CONVERSION[symbol][0][0]
+            if dir == 'SELL':
+                multiplier *= -1
+            for size, sym in CONVERSION[symbol]:
+                sym_to_pos[sym] += multiplier * size
+        else:
+            print("Unkown convert symbol", order)
     else:
         assert False
 
