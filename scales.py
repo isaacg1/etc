@@ -24,7 +24,6 @@ def create_scale(symbol_scaled, scale_margin):
     COMPONENT_NAME = "SCALE " + symbol_scaled
     SYMBOL_SCALED = symbol_scaled
     SCALE_MARGIN = scale_margin
-    SCALE_SIZE = scale_size
 
     buy_order = Order()
     sell_order = Order()
