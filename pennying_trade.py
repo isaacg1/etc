@@ -1,9 +1,9 @@
 import library
 from penny import create_penny
 
-LOW_BETA_SPREAD = 20
-NORMAL_BETA_SPREAD = 28
-HIGH_BETA_SPREAD = 36
+LOW_BETA_SPREAD = 15
+NORMAL_BETA_SPREAD = 20
+HIGH_BETA_SPREAD = 25
 
 ETF_SIZE = 8
 
