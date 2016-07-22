@@ -1,4 +1,5 @@
 import library
+import position_tracking
 from message_constants import *
 
 class Order:
@@ -139,8 +140,9 @@ def create_penny(symbol_pennied, min_spread, penny_size):
         sell_order.cancel_if_needed()
 
     def start_pennying(buy, sell):
-        buy_price = buy[0][0] + 1
-        sell_price = sell[0][0] - 1
+        shift = position_tracking.sym_to_pos[SYMBOL_PENNIED] / 20
+        buy_price = buy[0][0] + 1 - shift
+        sell_price = sell[0][0] - 1 - shift
         if not do_we_know_state():
             raise NameError("wtf1")
         if are_we_in():
