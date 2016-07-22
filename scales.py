@@ -19,7 +19,7 @@ class Order:
         self.state_known = True
         self.size = None
 
-def create_scale(symbol_scaled, scale_margin, scale_size):
+def create_scale(symbol_scaled, scale_margin):
 
     COMPONENT_NAME = "SCALE " + symbol_svaled
     SYMBOL_SCALED = symbol_scaled
@@ -36,7 +36,7 @@ def create_scale(symbol_scaled, scale_margin, scale_size):
     def is_it_my_order(msg):
         id = msg[ORDER_ID]
         tup = library.id_to_symbol_map[id]
-        return get_symbol_from_map_tuple(tup) == SYMBOL_PENN/IED
+        return get_symbol_from_map_tuple(tup) == SYMBOL_SCALED
 
     def scale(msg):
         if msg[TYPE] == BOOK and msg[SYMBOL] == SYMBOL_SCALED:
