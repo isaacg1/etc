@@ -10,7 +10,7 @@ def start_trading():
         f()
     while True:
         msg = get_message()
-        position_tracking.on_msg(msg)
+        position_tracking.on_msg(msg, id_to_symbol_map)
         for reaction in message_reactions:
             reaction(msg)
 
