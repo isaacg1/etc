@@ -127,6 +127,8 @@ def get_message():
     _print_fills(o)
     return o
 
+_global_cash_position = 0
+
 def _print_fills(msg):
   if msg[mc.TYPE] == mc.FILL:
     id = msg[mc.ORDER_ID]
@@ -135,6 +137,7 @@ def _print_fills(msg):
     value = price * size
     if msg[mc.DIR] == BUY:
         value = value * -1
+    _global_cash_position += value
     obj = {"log_type"  : "fill_log",
            "component" : id_to_component_map[id],
            "symbol"    : msg[mc.SYMBOL],
@@ -142,6 +145,7 @@ def _print_fills(msg):
            "dir"       : msg[mc.DIR],
            "price"     : price,
            "size"      : size,
-           "value"     : value
+           "value"     : value,
+           "cash"      : _global_cash_position
            }
     print(json.dumps(obj), file=sys.stderr)
